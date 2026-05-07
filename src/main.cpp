@@ -11,17 +11,24 @@
 #include <cstdlib>
 
 // Game states
-enum class GameState { MENU, VS_AI, VS_FRIEND };
+enum class GameState
+{
+    MENU,
+    VS_AI,
+    VS_FRIEND
+};
 
 // Button class for menu
-class Button {
+class Button
+{
 private:
     sf::RectangleShape shape;
     sf::Text text;
     bool isHovered = false;
 
 public:
-    Button(const std::string& label, sf::Font& font, float width, float height) : text(font, "", 32) {
+    Button(const std::string &label, sf::Font &font, float width, float height) : text(font, "", 32)
+    {
         shape.setSize({width, height});
         shape.setFillColor(sf::Color(50, 50, 50));
         shape.setOutlineThickness(3);
@@ -32,7 +39,8 @@ public:
         text.setFillColor(sf::Color::White);
     }
 
-    void setPosition(float x, float y) {
+    void setPosition(float x, float y)
+    {
         shape.setPosition({x, y});
         // Center text in button
         sf::FloatRect textBounds = text.getLocalBounds();
@@ -41,23 +49,29 @@ public:
         text.setPosition({textX, textY});
     }
 
-    bool isClicked(sf::RenderWindow& window) {
+    bool isClicked(sf::RenderWindow &window)
+    {
         sf::Vector2f mousePos(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
         return shape.getGlobalBounds().contains(mousePos);
     }
 
-    void update(sf::RenderWindow& window) {
+    void update(sf::RenderWindow &window)
+    {
         sf::Vector2f mousePos(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
         isHovered = shape.getGlobalBounds().contains(mousePos);
-        
-        if (isHovered) {
+
+        if (isHovered)
+        {
             shape.setFillColor(sf::Color(80, 80, 80));
-        } else {
+        }
+        else
+        {
             shape.setFillColor(sf::Color(50, 50, 50));
         }
     }
 
-    void draw(sf::RenderWindow& window) {
+    void draw(sf::RenderWindow &window)
+    {
         window.draw(shape);
         window.draw(text);
     }
@@ -217,7 +231,7 @@ int main()
                     {
                         int clickX = mouseBtn->position.x;
                         int clickY = mouseBtn->position.y;
-                        
+
                         // Check if back button clicked
                         if (clickX >= 10 && clickX <= 160 && clickY >= 760 && clickY <= 800)
                         {
@@ -228,8 +242,8 @@ int main()
                 }
 
                 // Game input: VS_FRIEND allows both players, VS_AI only White
-                bool canPlay = (gameState == GameState::VS_FRIEND) || 
-                              (gameState == GameState::VS_AI && isWhiteTurn);
+                bool canPlay = (gameState == GameState::VS_FRIEND) ||
+                               (gameState == GameState::VS_AI && isWhiteTurn);
 
                 if (canPlay)
                 {
