@@ -1,0 +1,647 @@
+% ============================================================
+% Chess Game Project Report
+% Object Oriented Programming Project
+% IBA Karachi
+% ============================================================
+
+\documentclass[11pt]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+
+% ============================================================
+% Colors
+% ============================================================
+
+\definecolor{primary}{RGB}{30,30,120}
+\definecolor{secondary}{RGB}{50,50,50}
+\definecolor{accent}{RGB}{0,120,0}
+
+% ============================================================
+% Section Styling
+% ============================================================
+
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{primary}}
+{\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{secondary}}
+{\thesubsection}{1em}{}
+
+% ============================================================
+% Header/Footer
+% ============================================================
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Chess Game Project}
+\fancyhead[R]{IBA Karachi}
+\fancyfoot[C]{\thepage}
+
+% ============================================================
+% Code Listing Style
+% ============================================================
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    breaklines=true,
+    frame=single,
+    showstringspaces=false
+}
+
+% ============================================================
+% Document Start
+% ============================================================
+
+\begin{document}
+
+% ============================================================
+% Title Page
+% ============================================================
+
+\begin{titlepage}
+
+\centering
+
+\vspace*{2cm}
+
+{\Huge \textbf{Chess Game using C++ and SFML}}
+
+\vspace{1cm}
+
+{\Large Object Oriented Programming Project}
+
+\vspace{2cm}
+
+\begin{tabular}{rl}
+\textbf{Course:} & Object Oriented Programming \\
+\textbf{Institute:} & Institute of Business Administration (IBA), Karachi \\
+\textbf{Semester:} & Spring 2026 \\
+\textbf{Language:} & C++17 \\
+\textbf{Graphics Library:} & SFML 3.0 \\
+\textbf{Instructor:} & Sir Behraj Khan
+\end{tabular}
+
+\vspace{2cm}
+
+{\Large \textbf{Submitted By}}
+
+\vspace{0.2cm}
+
+\begin{tabular}{c}
+Jiya Turshani \\
+Laksh Kumar \\
+Deepak Raj \\
+\end{tabular}
+
+\vfill
+
+{\Large Department of Computer Science}
+
+\vspace{0.3cm}
+
+{\Large Institute of Business Administration (IBA), Karachi}
+
+\vspace{1cm}
+
+{\large \today}
+
+\end{titlepage}
+
+% ============================================================
+% Table of Contents
+% ============================================================
+
+\tableofcontents
+\newpage
+
+% ============================================================
+% Abstract
+% ============================================================
+
+\section{Abstract}
+
+This project presents a complete Chess Game developed using modern C++ and the SFML graphics library. The project was developed as part of the Object Oriented Programming course at the Institute of Business Administration (IBA), Karachi.
+
+The application implements major chess mechanics including move validation, legal movement generation, check detection, checkmate detection, stalemate detection, pawn promotion, and an interactive graphical user interface.
+
+The project demonstrates practical implementation of Object Oriented Programming concepts including:
+
+\begin{itemize}
+    \item Encapsulation
+    \item Inheritance
+    \item Polymorphism
+    \item Abstraction
+    \item Dynamic Binding
+    \item Composition
+    \item Smart Pointers
+\end{itemize}
+
+The game supports both Human vs Human and Human vs AI gameplay modes.
+
+% ============================================================
+% Introduction
+% ============================================================
+
+\section{Introduction}
+
+Chess is one of the most strategic and widely played board games in the world. Developing a chess game provides an excellent opportunity to apply advanced programming concepts and software architecture principles.
+
+The primary goal of this project was to create a fully interactive graphical chess game using modern C++ and SFML while implementing Object Oriented Programming concepts learned during the course.
+
+The complete system was designed from scratch including:
+
+\begin{itemize}
+    \item Chess board implementation
+    \item Piece movement logic
+    \item Move validation
+    \item Check and checkmate detection
+    \item AI opponent
+    \item Graphical User Interface
+\end{itemize}
+
+% ============================================================
+% Objectives
+% ============================================================
+
+\section{Objectives}
+
+The main objectives of this project are:
+
+\begin{enumerate}
+    \item Implement a complete chess game.
+    \item Apply Object Oriented Programming concepts.
+    \item Design modular and reusable software architecture.
+    \item Implement legal chess mechanics.
+    \item Develop an AI opponent.
+    \item Create a graphical interface using SFML.
+\end{enumerate}
+
+% ============================================================
+% Features
+% ============================================================
+
+\section{Project Features}
+
+\subsection{Game Modes}
+
+\subsubsection{Play vs AI}
+
+\begin{itemize}
+    \item Human player plays as White.
+    \item AI plays as Black.
+    \item AI generates random legal moves.
+\end{itemize}
+
+\subsubsection{Play with Friend}
+
+\begin{itemize}
+    \item Local multiplayer support.
+    \item Alternating turns between White and Black.
+\end{itemize}
+
+% ============================================================
+% Chess Mechanics
+% ============================================================
+
+\section{Implemented Chess Mechanics}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Feature} & \textbf{Status} \\
+\hline
+Pawn Movement & Implemented \\
+Rook Movement & Implemented \\
+Knight Movement & Implemented \\
+Bishop Movement & Implemented \\
+Queen Movement & Implemented \\
+King Movement & Implemented \\
+Capturing & Implemented \\
+Move Validation & Implemented \\
+Check Detection & Implemented \\
+Checkmate Detection & Implemented \\
+Stalemate Detection & Implemented \\
+Pawn Promotion & Implemented \\
+AI Opponent & Implemented \\
+\hline
+\end{tabular}
+\caption{Implemented Chess Mechanics}
+\end{table}
+
+% ============================================================
+% OOP Concepts
+% ============================================================
+
+\section{Object Oriented Programming Concepts}
+
+\subsection{Inheritance}
+
+All chess pieces inherit from a common base class called \texttt{Piece}.
+
+\begin{lstlisting}[language=C++]
+class Piece
+{
+protected:
+    bool isWhite;
+};
+\end{lstlisting}
+
+Derived classes include:
+
+\begin{itemize}
+    \item Pawn
+    \item Rook
+    \item Knight
+    \item Bishop
+    \item Queen
+    \item King
+\end{itemize}
+
+% ============================================================
+
+\subsection{Polymorphism}
+
+Each chess piece overrides the movement function:
+
+\begin{lstlisting}[language=C++]
+virtual std::vector<sf::Vector2i>
+getValidMoves(...) const;
+\end{lstlisting}
+
+This allows dynamic move generation depending on piece type.
+
+% ============================================================
+
+\subsection{Encapsulation}
+
+Each class manages its own:
+
+\begin{itemize}
+    \item Data
+    \item Movement logic
+    \item Rendering logic
+    \item Internal state
+\end{itemize}
+
+% ============================================================
+
+\subsection{Composition}
+
+The \texttt{Board} class contains all chess pieces using:
+
+\begin{lstlisting}[language=C++]
+std::unique_ptr<Piece> grid[8][8];
+\end{lstlisting}
+
+% ============================================================
+
+\subsection{Smart Pointers}
+
+The project uses:
+
+\begin{lstlisting}[language=C++]
+std::unique_ptr
+\end{lstlisting}
+
+Benefits include:
+
+\begin{itemize}
+    \item Automatic memory management
+    \item Prevents memory leaks
+    \item Safer ownership handling
+\end{itemize}
+
+% ============================================================
+% Technologies
+% ============================================================
+
+\section{Technologies Used}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Technology & Purpose \\
+\hline
+C++17 & Core Programming Language \\
+SFML 3.0 & Graphics and Rendering \\
+CMake & Build System \\
+Visual Studio & Development IDE \\
+MSYS2 & Compiler Environment \\
+\hline
+\end{tabular}
+\caption{Technologies Used}
+\end{table}
+
+% ============================================================
+% Project Structure
+% ============================================================
+
+\section{Project Structure}
+
+\begin{verbatim}
+Chess/
+│
+├── assets/
+├── include/
+├── src/
+├── CMakeLists.txt
+├── CMakeSettings.json
+└── README.md
+\end{verbatim}
+
+% ============================================================
+% Setup Instructions
+% ============================================================
+
+\section{Setup Instructions}
+
+\subsection{Requirements}
+
+\begin{itemize}
+    \item CMake 3.14+
+    \item MSYS2
+    \item SFML 3.0
+    \item Visual Studio 2022
+\end{itemize}
+
+% ============================================================
+
+\subsection{Installing MSYS2}
+
+\begin{enumerate}
+    \item Download MSYS2 from:
+    
+    \url{https://www.msys2.org/}
+    
+    \item Install using the UCRT64 environment.
+    
+    \item Run:
+\end{enumerate}
+
+\begin{lstlisting}[language=bash]
+pacman -S mingw-w64-ucrt-x86_64-sfml
+\end{lstlisting}
+
+% ============================================================
+
+\subsection{Build Steps}
+
+\subsubsection{Step 1: Create Build Folder}
+
+\begin{lstlisting}[language=bash]
+mkdir build
+cd build
+\end{lstlisting}
+
+\subsubsection{Step 2: Configure}
+
+\begin{lstlisting}[language=bash]
+cmake ..
+\end{lstlisting}
+
+\subsubsection{Step 3: Build}
+
+\begin{lstlisting}[language=bash]
+cmake --build .
+\end{lstlisting}
+
+\subsubsection{Step 4: Run}
+
+\begin{lstlisting}[language=bash]
+./Chess.exe
+\end{lstlisting}
+
+% ============================================================
+% Controls
+% ============================================================
+
+\section{Game Controls}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Action & Mouse Input \\
+\hline
+Select Piece & Left Click \\
+Move Piece & Right Click \\
+Return to Menu & Click Menu Button \\
+\hline
+\end{tabular}
+\caption{Game Controls}
+\end{table}
+
+% ============================================================
+% Game Logic
+% ============================================================
+
+\section{Game Logic}
+
+\subsection{Piece Selection}
+
+The user selects a piece using left-click.
+
+The game:
+
+\begin{enumerate}
+    \item Detects the selected piece
+    \item Generates possible moves
+    \item Filters illegal moves
+    \item Highlights valid moves
+\end{enumerate}
+
+% ============================================================
+
+\subsection{Move Validation}
+
+Each piece first generates pseudo-legal moves.
+
+The board then verifies:
+
+\begin{itemize}
+    \item Move is inside the board
+    \item Destination is valid
+    \item Move does not expose the king to check
+\end{itemize}
+
+% ============================================================
+
+\subsection{Check Detection}
+
+The system:
+
+\begin{enumerate}
+    \item Finds the king position
+    \item Generates enemy attack moves
+    \item Checks whether the king is attacked
+\end{enumerate}
+
+% ============================================================
+
+\subsection{Checkmate Detection}
+
+A player is in checkmate when:
+
+\begin{itemize}
+    \item The king is in check
+    \item No legal moves exist
+\end{itemize}
+
+% ============================================================
+
+\subsection{AI System}
+
+The AI:
+
+\begin{enumerate}
+    \item Collects all legal moves
+    \item Stores them in a vector
+    \item Randomly selects one move
+    \item Executes the move
+\end{enumerate}
+
+Future improvements may include:
+
+\begin{itemize}
+    \item Minimax Algorithm
+    \item Alpha-Beta Pruning
+    \item Evaluation Functions
+\end{itemize}
+
+% ============================================================
+% GUI Features
+% ============================================================
+
+\section{GUI Features}
+
+The graphical interface includes:
+
+\begin{itemize}
+    \item Interactive chess board
+    \item Piece textures
+    \item Highlighted valid moves
+    \item Status messages
+    \item Turn indicators
+    \item Menu system
+\end{itemize}
+
+% ============================================================
+% Challenges
+% ============================================================
+
+\section{Challenges Faced}
+
+Major challenges included:
+
+\begin{itemize}
+    \item Implementing accurate chess rules
+    \item Check and checkmate logic
+    \item Safe move validation
+    \item Managing memory safely
+    \item Designing reusable architecture
+    \item Finding assests online 
+\end{itemize}
+
+% ============================================================
+% Future Improvements
+% ============================================================
+
+\section{Future Improvements}
+
+Potential future features include:
+
+\begin{itemize}
+    \item Castling
+    \item En Passant
+    \item Stronger AI
+    \item Sound effects
+    \item Online multiplayer
+    \item Move history
+    \item Undo system
+    \item Saving/loading games
+\end{itemize}
+
+% ============================================================
+% Known Limitations
+% ============================================================
+
+\section{Known Limitations}
+
+\begin{itemize}
+    \item AI uses random move generation
+    \item Castling not implemented
+    \item En passant not implemented
+    \item No networking support
+\end{itemize}
+
+% ============================================================
+% Learning Outcomes
+% ============================================================
+
+\section{Learning Outcomes}
+
+This project helped improve understanding of:
+
+\begin{itemize}
+    \item Object Oriented Programming
+    \item Game development architecture
+    \item GUI programming with SFML
+    \item Event-driven programming
+    \item Memory management
+    \item Chess engine logic
+\end{itemize}
+
+% ============================================================
+% Conclusion
+% ============================================================
+
+\section{Conclusion}
+
+This project successfully demonstrates the implementation of a complete Chess Game using modern C++ and SFML.
+
+The application effectively applies Object Oriented Programming concepts and demonstrates practical software engineering, GUI programming, and game logic implementation.
+
+% ============================================================
+% References
+% ============================================================
+\newpage
+\section{References}
+
+\begin{itemize}
+    \item SFML Documentation:
+    
+    \url{https://www.sfml-dev.org/documentation/}
+    
+    \item C++ Reference:
+    
+    \url{https://cplusplus.com/}
+    
+    \item Chess Rules:
+    
+    \url{https://www.chess.com/learn-how-to-play-chess}
+\end{itemize}
+
+% ============================================================
+
+\end{document}
