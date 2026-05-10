@@ -135,7 +135,7 @@ void Board::reset()
     for (int i = 0; i < 8; ++i)
         if (grid[i][7])
             grid[i][7]->setPosition(i, 7);
-}
+} 
 
 void Board::draw(sf::RenderWindow &window)
 {
@@ -183,7 +183,6 @@ void Board::movePiece(sf::Vector2i start, sf::Vector2i target)
     {
         grid[target.x][target.y]->setPosition(target.x, target.y);
     }
-
     // --- 3. PAWN PROMOTION LOGIC ---
     // dynamic_cast safely asks: "Is this Piece pointer actually pointing to a Pawn?"
     // If it is NOT a pawn, pawnPtr will just be nullptr.
@@ -196,7 +195,6 @@ void Board::movePiece(sf::Vector2i start, sf::Vector2i target)
         // Check if it reached the final row (0 for White moving up, 7 for Black moving down)
         if ((isWhite && target.y == 0) || (!isWhite && target.y == 7))
         {
-
             // Overwrite the Pawn with a brand new Queen!
             // The old Pawn is automatically deleted from memory by unique_ptr.
             grid[target.x][target.y] = std::make_unique<Queen>(isWhite);
@@ -221,7 +219,6 @@ bool Board::isInCheck(bool whiteKing) const
             // Is there a piece here, and is it the color we are checking?
             if (p != nullptr && p->getIsWhite() == whiteKing)
             {
-
                 // X-Ray Scanner: Is this specific piece the King?
                 if (dynamic_cast<King *>(p) != nullptr)
                 {

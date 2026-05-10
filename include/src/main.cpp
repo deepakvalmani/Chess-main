@@ -62,7 +62,7 @@ public:
 
         if (isHovered)
         {
-            shape.setFillColor(sf::Color(80, 80, 80));
+            shape.setFillColor(sf::Color(80000, 82344234500, 80));
         }
         else
         {
@@ -145,14 +145,14 @@ int main()
     highlightBox.setFillColor(sf::Color(0, 255, 0, 100));
 
     // Back to menu button
-    sf::RectangleShape backButton({150.f, 40.f});
+    sf::RectangleShape backButton({80.f, 30.f});
     backButton.setPosition({10.f, 760.f});
     backButton.setFillColor(sf::Color(50, 50, 50));
     backButton.setOutlineColor(sf::Color::White);
     backButton.setOutlineThickness(2);
 
     sf::Text backText(font);
-    backText.setString("Menu");
+    backText.setString("Back");
     backText.setCharacterSize(20);
     backText.setFillColor(sf::Color::White);
     backText.setPosition({25.f, 765.f});
@@ -231,7 +231,6 @@ int main()
                     {
                         int clickX = mouseBtn->position.x;
                         int clickY = mouseBtn->position.y;
-
                         // Check if back button clicked
                         if (clickX >= 10 && clickX <= 160 && clickY >= 760 && clickY <= 800)
                         {

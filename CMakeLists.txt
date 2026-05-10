@@ -5,6 +5,8 @@ project(Chess)
 # 1. Add your source and include directories
 include_directories(include)
 file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB_RECURSE SOURCES "include/src/*.cpp")
+
 
 # 2. Create Executable
 add_executable(Chess ${SOURCES})

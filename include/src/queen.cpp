@@ -1,12 +1,12 @@
-﻿#include "bishop.h"
+﻿#include "queen.h"
 #include "board.h"
 #include <iostream>
 
-Bishop::Bishop(bool white) : Piece(white)
+Queen::Queen(bool white) : Piece(white)
 {
     // For now, load a placeholder texture.
-    // You'll need "assets/Bishop.png" and "assets/Bishop_Black.png"
-    std::string filename = white ? "assets/Bishop.png" : "assets/Bishop_Black.png";
+    // You'll need "assets/Queen.png" and "assets/Queen_Black.png"
+    std::string filename = white ? "assets/Queen.png" : "assets/Queen_Black.png";
 
     // Note: To do this properly, the texture should be stored elsewhere so it
     // doesn't go out of scope, but we'll keep it simple for this step!
@@ -25,15 +25,15 @@ Bishop::Bishop(bool white) : Piece(white)
     }
 }
 
-std::vector<sf::Vector2i> Bishop::getValidMoves(const Board &board, sf::Vector2i currentPos) const
+std::vector<sf::Vector2i> Queen::getValidMoves(const Board &board, sf::Vector2i currentPos) const
 {
     std::vector<sf::Vector2i> moves;
 
-    // 4 Directions: Top-Left, Top-Right, Bottom-Left, Bottom-Right
-    int dx[] = {-1, 1, -1, 1};
-    int dy[] = {-1, -1, 1, 1};
+    // 8 Directions: Combine Rook and Bishop directions
+    int dx[] = {0, 0, -1, 1, -1, 1, -1, 1};
+    int dy[] = {-1, 1, 0, 0, -1, -1, 1, 1};
 
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 8; ++i)
     {
         int x = currentPos.x + dx[i];
         int y = currentPos.y + dy[i];
@@ -43,6 +43,7 @@ std::vector<sf::Vector2i> Bishop::getValidMoves(const Board &board, sf::Vector2i
             Piece *p = board.getPieceAt(x, y);
             if (p == nullptr)
             {
+                
                 moves.push_back({x, y});
             }
             else
@@ -59,8 +60,7 @@ std::vector<sf::Vector2i> Bishop::getValidMoves(const Board &board, sf::Vector2i
     }
     return moves;
 }
-
-void Bishop::draw(sf::RenderWindow &window)
+void Queen::draw(sf::RenderWindow &window)
 {
     if (sprite)
     {

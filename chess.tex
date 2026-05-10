@@ -1,8 +1,3 @@
-% ============================================================
-% Chess Game Project Report
-% Object Oriented Programming Project
-% IBA Karachi
-% ============================================================
 
 \documentclass[11pt]{article}
 
@@ -22,6 +17,7 @@
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{parskip}
+\usepackage{setspace}
 
 % ============================================================
 % Colors
@@ -74,6 +70,7 @@
 \begin{document}
 
 % ============================================================
+% ============================================================
 % Title Page
 % ============================================================
 
@@ -81,30 +78,50 @@
 
 \centering
 
-\vspace*{2cm}
-
-{\Huge \textbf{Chess Game using C++ and SFML}}
+% Logo
+\includegraphics[width=0.5\textwidth]{IBA-logo.png}
 
 \vspace{1cm}
 
-{\Large Object Oriented Programming Project}
+% University Name
+{\Large \textbf{Institute of Business Administration, Karachi}}
+
+\vspace{0.3cm}
+
+{\large Department of Computer Science}
+
+\vspace{1cm}
+
+% Project Title
+
+\vspace{0.6cm}
+
+{\Huge \textbf{Chess Game using C++ and SFML}}
+
 
 \vspace{2cm}
+
+% Project Details
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.4}
 
 \begin{tabular}{rl}
 \textbf{Course:} & Object Oriented Programming \\
-\textbf{Institute:} & Institute of Business Administration (IBA), Karachi \\
 \textbf{Semester:} & Spring 2026 \\
 \textbf{Language:} & C++17 \\
 \textbf{Graphics Library:} & SFML 3.0 \\
-\textbf{Instructor:} & Sir Behraj Khan
+\textbf{Instructor:} & Sir Behraj Khan \\
 \end{tabular}
 
-\vspace{2cm}
+\end{table}
 
+\vspace{1.5cm}
+
+% Submitted By
 {\Large \textbf{Submitted By}}
 
-\vspace{0.2cm}
+\vspace{0.5cm}
 
 \begin{tabular}{c}
 Jiya Turshani \\
@@ -114,13 +131,19 @@ Deepak Raj \\
 
 \vfill
 
-{\Large Department of Computer Science}
+% Bottom Section
+{\large
+Department of Computer Science \\
+Institute of Business Administration (IBA), Karachi
+}
 
-\vspace{0.3cm}
+\vspace{0.8cm}
 
-{\Large Institute of Business Administration (IBA), Karachi}
-
-\vspace{1cm}
+{\large
+\textbf{GitHub Repository:} \\
+\url{https://github.com/deepakvalmani/Chess-main.git}
+}
+\vspace{0.8cm}
 
 {\large \today}
 
@@ -432,6 +455,23 @@ cmake --build .
 ./Chess.exe
 \end{lstlisting}
 
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\linewidth]{initial_screen.jpeg}
+        \caption{Initial screen}
+        \label{fig:placeholder}
+\end{figure}
+
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1.0\linewidth]{game_screen.jpeg}
+            \caption{Game Screen}
+            \label{fig:placeholder}
+        \end{figure}
 % ============================================================
 % Controls
 % ============================================================
@@ -552,16 +592,90 @@ The graphical interface includes:
 
 \section{Challenges Faced}
 
-Major challenges included:
+During the development of this chess game, several technical and design challenges were encountered. These challenges helped in improving problem-solving skills and understanding of software architecture and object-oriented programming concepts.
+
+\subsection{Implementing Chess Movement Rules}
+
+One of the major challenges was implementing accurate movement logic for each chess piece. Every piece in chess follows different movement rules:
 
 \begin{itemize}
-    \item Implementing accurate chess rules
-    \item Check and checkmate logic
-    \item Safe move validation
-    \item Managing memory safely
-    \item Designing reusable architecture
-    \item Finding assests online 
+    \item Pawns move forward but capture diagonally.
+    \item Knights move in an ``L'' shape and can jump over pieces.
+    \item Bishops move diagonally across unlimited squares.
+    \item Rooks move horizontally and vertically.
+    \item Queens combine rook and bishop movement.
+    \item Kings move only one square in any direction.
 \end{itemize}
+
+Designing separate movement algorithms for each piece while maintaining clean object-oriented design required careful planning and testing.
+
+\subsection{Check and Checkmate Detection}
+
+Implementing check detection was one of the most difficult parts of the project. The system needed to determine whether the king was under attack after every move.
+
+To solve this problem:
+
+\begin{itemize}
+    \item The board scans all enemy pieces.
+    \item Each enemy piece generates its possible attack moves.
+    \item The program checks whether any attack square matches the king's position.
+\end{itemize}
+
+Checkmate detection was even more complex because the game had to verify whether the player still had at least one legal move available to escape the check.
+
+\subsection{Move Validation}
+
+Another difficult task was preventing illegal moves. A move might appear mathematically correct but could expose the player's king to danger.
+
+To handle this issue:
+
+\begin{itemize}
+    \item The move is temporarily simulated in memory.
+    \item The board checks whether the king becomes exposed.
+    \item If the king is still safe, the move is allowed.
+    \item Otherwise, the move is rejected.
+\end{itemize}
+
+This required careful manipulation of piece positions using smart pointers.
+
+\subsection{Managing Dynamic Memory}
+
+Since chess pieces are created dynamically, memory management was an important challenge. Improper handling could cause memory leaks or crashes.
+
+The project uses:
+
+\begin{center}
+\texttt{std::unique\_ptr}
+\end{center}
+
+to ensure automatic memory management and safe ownership transfer during captures and movement.
+
+\subsection{SFML Rendering and GUI Design}
+
+Creating the graphical interface using SFML also introduced challenges such as:
+
+\begin{itemize}
+    \item Correctly positioning pieces on the board
+    \item Scaling textures properly
+    \item Handling mouse input events
+    \item Highlighting valid moves
+    \item Managing menus and game states
+\end{itemize}
+
+Special attention was required to synchronize the visual board with the internal game logic.
+
+\subsection{Debugging Complex Game Logic}
+
+Debugging chess logic was challenging because many features depend on one another. A small issue in movement logic could affect:
+
+\begin{itemize}
+    \item Check detection
+    \item Capturing
+    \item AI behavior
+    \item Checkmate validation
+\end{itemize}
+
+Extensive testing and debugging were required to ensure stable gameplay.
 
 % ============================================================
 % Future Improvements
