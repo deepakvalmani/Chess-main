@@ -62,7 +62,7 @@ public:
 
         if (isHovered)
         {
-            shape.setFillColor(sf::Color(80000, 82344234500, 80));
+            shape.setFillColor(sf::Color(255, 100, 0));
         }
         else
         {
@@ -120,20 +120,20 @@ int main()
     GameState gameState = GameState::MENU;
     Board myBoard;
 
-    // --- GAME STATE VARIABLES ---
+    // Game state variables 
     Piece *selectedPiece = nullptr;
     sf::Vector2i selectedPos = {-1, -1};
     std::vector<sf::Vector2i> currentValidMoves;
 
-    // AI Timer variables
+    // AI timer variables
     sf::Clock aiTimer;
     bool waitingForAI = false;
 
-    // White always goes first!
+    // White always goes first
     bool isWhiteTurn = true;
     std::string statusMessage = "White's Turn";
 
-    // --- UI SETUP ---
+    //ui setup
     sf::Text turnText(font);
     turnText.setCharacterSize(30);
     turnText.setFillColor(sf::Color::Black);
@@ -144,7 +144,7 @@ int main()
     sf::RectangleShape highlightBox({100.f, 100.f});
     highlightBox.setFillColor(sf::Color(0, 255, 0, 100));
 
-    // Back to menu button
+    // back to menu button
     sf::RectangleShape backButton({80.f, 30.f});
     backButton.setPosition({10.f, 760.f});
     backButton.setFillColor(sf::Color(50, 50, 50));
@@ -160,8 +160,7 @@ int main()
     while (window.isOpen())
     {
         if (gameState == GameState::MENU)
-        {
-            // --- MENU LOOP ---
+        { //menu loop
             while (const std::optional event = window.pollEvent())
             {
                 if (event->is<sf::Event::Closed>())
@@ -202,11 +201,11 @@ int main()
                 }
             }
 
-            // Update button hover states
+            // update button hover states
             btnAI.update(window);
             btnFriend.update(window);
 
-            // Draw menu
+            // draw menu
             window.clear(sf::Color(30, 30, 30));
             window.draw(titleText);
             window.draw(subtitleText);
@@ -216,7 +215,7 @@ int main()
         }
         else
         {
-            // --- GAME LOOP ---
+            // main game loop
             while (const std::optional event = window.pollEvent())
             {
                 if (event->is<sf::Event::Closed>())
@@ -240,7 +239,7 @@ int main()
                     }
                 }
 
-                // Game input: VS_FRIEND allows both players, VS_AI only White
+                // user input: VS_FRIEND allows both players VS_AI only White
                 bool canPlay = (gameState == GameState::VS_FRIEND) ||
                                (gameState == GameState::VS_AI && isWhiteTurn);
 
@@ -257,7 +256,7 @@ int main()
                             {
                                 Piece *clickedPiece = myBoard.getPieceAt(gridX, gridY);
 
-                                // Allow selecting piece of the current player's color
+                                // allow selecting piece of the current player's color
                                 if (clickedPiece && clickedPiece->getIsWhite() == isWhiteTurn)
                                 {
                                     selectedPiece = clickedPiece;
@@ -299,6 +298,19 @@ int main()
                                 {
                                     if (myBoard.isInCheck(isWhiteTurn))
                                     {
+                                        // Logic for Changing the color of the checkmated King
+                                        for (int i = 0; i < 8; i++)
+                                        {
+                                            for (int j = 0; j < 8; j++)
+                                            {
+                                                Piece *p = myBoard.getPieceAt(i, j);
+                                                King *k = dynamic_cast<King *>(p);
+                                                if (k && k->getIsWhite() == isWhiteTurn)
+                                                {
+                                                    myBoard.setColorAt(i, j);
+                                                }
+                                            }
+                                        }
                                         statusMessage = isWhiteTurn ? "CHECKMATE! Black Wins!" : "CHECKMATE! White Wins!";
                                     }
                                     else
@@ -315,7 +327,7 @@ int main()
                                     statusMessage = isWhiteTurn ? "White's Turn" : "Black's Turn";
                                 }
 
-                                // AI turn in VS_AI mode
+                                // AI turn in vs AI mode
                                 if (gameState == GameState::VS_AI && !isWhiteTurn && statusMessage.find("CHECKMATE") == std::string::npos)
                                 {
                                     waitingForAI = true;
@@ -331,7 +343,7 @@ int main()
                 }
             }
 
-            // AI move in VS_AI mode
+            // AI move in vs AI mode
             if (gameState == GameState::VS_AI && waitingForAI && aiTimer.getElapsedTime().asMilliseconds() > 250)
             {
                 myBoard.makeRandomAIMove(false);
@@ -355,10 +367,8 @@ int main()
                 }
             }
 
-            // Update UI
             turnText.setString(statusMessage);
 
-            // Render
             window.clear();
             myBoard.draw(window);
 

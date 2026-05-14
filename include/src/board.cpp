@@ -9,36 +9,37 @@
 
 Board::Board()
 {
-    // Standard chess board colors:
-    // Light squares: Cream/Off-white (RGB: 238, 238, 210)
-    // Dark squares: Dark brown (RGB: 118, 150, 86)
+    // standard chess board colors:
+    // light squares: cream color RGB: 238, 238, 210
+    // dark squares: dark brown RGB: 118, 150, 86
+
     sf::Color lightColor(238, 238, 210); // Classic chess board light
     sf::Color darkColor(118, 150, 86);   // Classic chess board dark
 
-    // Loop through the 8x8 grid to set up the visual tiles
+    // loop through the 8x8 grid to set up the visual tiles
     for (int file = 0; file < 8; ++file)
-    { // x-axis (columns A-H)
+    { 
         for (int rank = 0; rank < 8; ++rank)
-        { // y-axis (rows 1-8)
+        { 
 
             tiles[file][rank].setSize({tileSize, tileSize});
             tiles[file][rank].setPosition({file * tileSize, rank * tileSize});
 
-            // Standard chess logic for alternating colors
+            // standard chess logic for alternating colors
             if ((file + rank) % 2 == 0)
             {
-                tiles[file][rank].setFillColor(lightColor); // Light square
+                tiles[file][rank].setFillColor(lightColor); // light square
             }
             else
             {
-                tiles[file][rank].setFillColor(darkColor); // Dark square
+                tiles[file][rank].setFillColor(darkColor); // dark square
             }
-            // Remove texture reference - use solid colors
+            // Remove texture reference use solid colors
             tiles[file][rank].setTexture(nullptr);
         }
     }
 
-    // --- BOARD SETUP ---
+// board setup
     for (int i = 0; i < 8; ++i)
     {
         grid[i][1] = std::make_unique<Pawn>(false); // Black pawns
@@ -78,17 +79,17 @@ Board::Board()
 
 void Board::reset()
 {
-    // Standard chess board colors:
+  
     sf::Color lightColor(238, 238, 210);
     sf::Color darkColor(118, 150, 86);
 
-    // Clear the grid
+    // clear the grid
     for (int file = 0; file < 8; ++file)
     {
         for (int rank = 0; rank < 8; ++rank)
         {
             grid[file][rank].reset();
-            // Reset tile colors too
+            // Reset tile colors as well 
             if ((file + rank) % 2 == 0)
             {
                 tiles[file][rank].setFillColor(lightColor);
@@ -101,7 +102,7 @@ void Board::reset()
         }
     }
 
-    // Re-setup the board (same as constructor)
+    // again setup the complete board same as constructor
     for (int i = 0; i < 8; ++i)
     {
         grid[i][1] = std::make_unique<Pawn>(false);
@@ -135,11 +136,11 @@ void Board::reset()
     for (int i = 0; i < 8; ++i)
         if (grid[i][7])
             grid[i][7]->setPosition(i, 7);
-} 
+}
 
 void Board::draw(sf::RenderWindow &window)
 {
-    // 1. Draw all the squares first
+    // draw all the squares first
     for (int file = 0; file < 8; ++file)
     {
         for (int rank = 0; rank < 8; ++rank)
@@ -148,7 +149,7 @@ void Board::draw(sf::RenderWindow &window)
         }
     }
 
-    // 2. Draw all the pieces on top
+    // draw all the pieces on top
     for (int file = 0; file < 8; ++file)
     {
         for (int rank = 0; rank < 8; ++rank)
@@ -163,7 +164,7 @@ void Board::draw(sf::RenderWindow &window)
 
 Piece *Board::getPieceAt(int x, int y) const
 {
-    // Make sure we don't check outside the board!
+    // Make sure not to check outside the board
     if (x >= 0 && x < 8 && y >= 0 && y < 8)
     {
         return grid[x][y].get();
@@ -173,33 +174,33 @@ Piece *Board::getPieceAt(int x, int y) const
 
 void Board::movePiece(sf::Vector2i start, sf::Vector2i target)
 {
-    // 1. Move the underlying memory pointer to the new square.
-    // std::move transfers ownership. The old square automatically becomes nullptr!
-    // If an enemy piece was already at the target, it gets destroyed automatically.
+    // move the memory pointer to the new square
+    // std::move transfers ownership so  the old square automatically becomes nullptr
+    // if an enemy piece was already at the target it gets destroyed automatically.
     grid[target.x][target.y] = std::move(grid[start.x][start.y]);
 
-    // 2. Tell the piece to update its visual sprite position to match the new square
+    // tell the piece to update its visual sprite position to match the new square
     if (grid[target.x][target.y] != nullptr)
     {
         grid[target.x][target.y]->setPosition(target.x, target.y);
     }
-    // --- 3. PAWN PROMOTION LOGIC ---
-    // dynamic_cast safely asks: "Is this Piece pointer actually pointing to a Pawn?"
-    // If it is NOT a pawn, pawnPtr will just be nullptr.
+    //pawn promotion logic
+    // dynamic_cast safely checks is this piece pointer actually pointing to a pawn?
+    // if it is not a pawn then pawnPtr will automaticaly be nullptr
     Pawn *pawnPtr = dynamic_cast<Pawn *>(grid[target.x][target.y].get());
 
     if (pawnPtr != nullptr)
     {
         bool isWhite = pawnPtr->getIsWhite();
 
-        // Check if it reached the final row (0 for White moving up, 7 for Black moving down)
+        // check if pawn reached the final row 0 for white moving up 7 for black moving down)
         if ((isWhite && target.y == 0) || (!isWhite && target.y == 7))
         {
-            // Overwrite the Pawn with a brand new Queen!
-            // The old Pawn is automatically deleted from memory by unique_ptr.
+            // Overwrite the Pawn with a queen
+            // old awn is automatically deleted from memory by unique_ptr
             grid[target.x][target.y] = std::make_unique<Queen>(isWhite);
 
-            // Update the new Queen's visual position
+            // now update new Queen's visual position
             grid[target.x][target.y]->setPosition(target.x, target.y);
         }
     }
@@ -209,45 +210,46 @@ bool Board::isInCheck(bool whiteKing) const
 {
     sf::Vector2i kingPos = {-1, -1};
 
-    // --- STEP 1: FIND THE KING ---
+    // fisrt find king
     for (int x = 0; x < 8; ++x)
     {
         for (int y = 0; y < 8; ++y)
         {
             Piece *p = getPieceAt(x, y);
 
-            // Is there a piece here, and is it the color we are checking?
+            // check that is there any piece here and is it the color we are checking?
             if (p != nullptr && p->getIsWhite() == whiteKing)
             {
-                // X-Ray Scanner: Is this specific piece the King?
+                //is this specific piece the King?
                 if (dynamic_cast<King *>(p) != nullptr)
                 {
                     kingPos = {x, y};
-                    break; // Found him, stop searching this row
+                    break; // if found the king then stop searching 
                 }
             }
         }
     }
 
-    // Safety check in case the King was somehow deleted (shouldn't happen in normal chess)
+    //  check in case the King was somehow deleted would not happen but better to check
+
     if (kingPos.x == -1)
         return false;
 
-    // --- STEP 2: CHECK ENEMY CROSSHAIRS ---
+    // 
     for (int x = 0; x < 8; ++x)
     {
         for (int y = 0; y < 8; ++y)
         {
             Piece *p = getPieceAt(x, y);
 
-            // Is this an ENEMY piece?
+            // check if this piece is enemy or not
             if (p != nullptr && p->getIsWhite() != whiteKing)
             {
 
-                // Get all the squares this enemy can attack
+                // get all the squares this enemy can attack
                 std::vector<sf::Vector2i> enemyMoves = p->getValidMoves(*this, {x, y});
 
-                // Do any of those attack squares match the King's square?
+                // check if any of those attack squares match the King's square?
                 for (const sf::Vector2i &move : enemyMoves)
                 {
                     if (move.x == kingPos.x && move.y == kingPos.y)
@@ -259,51 +261,51 @@ bool Board::isInCheck(bool whiteKing) const
         }
     }
 
-    return false; // The King is safe.
+    return false; //this false means the king is safe 
 }
 
 bool Board::isMoveSafe(sf::Vector2i start, sf::Vector2i target)
 {
-    // 1. Hide the piece that is about to be captured so it isn't destroyed!
+    // store the piece that is about to be captured so it is not destroyed
     std::unique_ptr<Piece> tempCaptured = std::move(grid[target.x][target.y]);
 
-    // 2. Simulate the move in memory (Do NOT update the visual positions)
+    //simulate the move in memory do not update the visual positions
     grid[target.x][target.y] = std::move(grid[start.x][start.y]);
 
-    // 3. Ring the alarm! Does this simulation put our own King in Check?
+    // check weather this simulation put our own King in check?
     bool isWhite = grid[target.x][target.y]->getIsWhite();
     bool inCheck = isInCheck(isWhite);
 
-    // 4. UNDO THE MOVE: Put our piece back where it started
+    // put the piece back where it started
     grid[start.x][start.y] = std::move(grid[target.x][target.y]);
 
-    // 5. UNDO THE CAPTURE: Put the hidden enemy piece back on the target square
+    // put the hidden enemy piece back on the target square
     grid[target.x][target.y] = std::move(tempCaptured);
 
-    // If we are NOT in check, the move is safe (true)
+    // if not in check the move is safe return true
     return !inCheck;
 }
 
 bool Board::hasValidMoves(bool whitePlayer)
 {
-    // Loop through the entire board
+    // loop through the entire board
     for (int x = 0; x < 8; ++x)
     {
         for (int y = 0; y < 8; ++y)
         {
             Piece *p = getPieceAt(x, y);
 
-            // Is it a piece, and does it belong to the current player?
+            // check if this a piece and it belong to the current player?
             if (p != nullptr && p->getIsWhite() == whitePlayer)
             {
 
-                // Get all its mathematical moves
+                // get all its moves
                 std::vector<sf::Vector2i> pseudoMoves = p->getValidMoves(*this, {x, y});
 
-                // Run them through the filter
+                // loop alll the moves
                 for (const sf::Vector2i &move : pseudoMoves)
                 {
-                    // If we find even ONE safe move, they are not trapped!
+                    // if even one safe moove is possible return true
                     if (isMoveSafe({x, y}, move))
                     {
                         return true;
@@ -313,16 +315,23 @@ bool Board::hasValidMoves(bool whitePlayer)
         }
     }
 
-    // If we checked every single piece and found zero safe moves:
+    //if checked every single piece and found zero safe moves then return flase
     return false;
+} 
+
+// extra added function to change color of any pice at (x, y)
+void Board::setColorAt(int x, int y)
+{
+    sf::Color color(255, 10, 10);
+    tiles[x][y].setFillColor(color);
 }
 
 void Board::makeRandomAIMove(bool isWhite)
 {
     std::vector<AIMove> allPossibleMoves;
 
-    // 1. GATHER ALL LEGAL MOVES
-    // Scan the entire board for our pieces
+    // gather all moves
+    // scan the entire board for pieces
     for (int x = 0; x < 8; ++x)
     {
         for (int y = 0; y < 8; ++y)
@@ -331,15 +340,16 @@ void Board::makeRandomAIMove(bool isWhite)
 
             if (p != nullptr && p->getIsWhite() == isWhite)
             {
-                // Get the mathematical moves
+                // get all moves 
                 std::vector<sf::Vector2i> pseudoMoves = p->getValidMoves(*this, {x, y});
 
-                // Filter them using our Check-Detector!
+                // loop through those moves 
                 for (const sf::Vector2i &move : pseudoMoves)
                 {
+                    //check if the move is safe 
                     if (isMoveSafe({x, y}, move))
                     {
-                        // Package it up and add it to the master list
+                        // if move is safe then push it to possible vlaid moves 
                         allPossibleMoves.push_back({{x, y}, move});
                     }
                 }
@@ -347,14 +357,14 @@ void Board::makeRandomAIMove(bool isWhite)
         }
     }
 
-    // 2. MAKE A RANDOM MOVE
+    // make a raandom move without any strategy 
     if (!allPossibleMoves.empty())
-    {
-        // Pick a random index
+    {        
         int randomIndex = rand() % allPossibleMoves.size();
         AIMove chosenMove = allPossibleMoves[randomIndex];
 
-        // Execute the move exactly like a human player would!
         movePiece(chosenMove.start, chosenMove.target);
     }
 }
+
+  
