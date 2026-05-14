@@ -230,7 +230,7 @@ bool Board::isInCheck(bool whiteKing) const
         }
     }
 
-    //  check in case the King was somehow deleted would not happen but better to check
+    // check in case the King was somehow deleted would not happen but better to check
 
     if (kingPos.x == -1)
         return false;
@@ -319,12 +319,6 @@ bool Board::hasValidMoves(bool whitePlayer)
     return false;
 } 
 
-// extra added function to change color of any pice at (x, y)
-void Board::setColorAt(int x, int y)
-{
-    sf::Color color(255, 10, 10);
-    tiles[x][y].setFillColor(color);
-}
 
 void Board::makeRandomAIMove(bool isWhite)
 {

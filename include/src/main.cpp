@@ -198,7 +198,7 @@ int main()
                             currentValidMoves.clear();
                         }
                     }
-                }
+                } 
             }
 
             // update button hover states
@@ -298,19 +298,6 @@ int main()
                                 {
                                     if (myBoard.isInCheck(isWhiteTurn))
                                     {
-                                        // Logic for Changing the color of the checkmated King
-                                        for (int i = 0; i < 8; i++)
-                                        {
-                                            for (int j = 0; j < 8; j++)
-                                            {
-                                                Piece *p = myBoard.getPieceAt(i, j);
-                                                King *k = dynamic_cast<King *>(p);
-                                                if (k && k->getIsWhite() == isWhiteTurn)
-                                                {
-                                                    myBoard.setColorAt(i, j);
-                                                }
-                                            }
-                                        }
                                         statusMessage = isWhiteTurn ? "CHECKMATE! Black Wins!" : "CHECKMATE! White Wins!";
                                     }
                                     else

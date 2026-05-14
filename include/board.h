@@ -44,5 +44,5 @@ public:
 
     // reset the board to initial state
     void reset();
-    void setColorAt(int x, int y);
+
 };
